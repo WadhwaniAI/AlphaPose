@@ -1,11 +1,14 @@
+# Run from outside anthro/ directory
+
 import sys
 sys.path.append('/home/users/aditya/projects/anthro-data')
 from api import DBAPI
 from os.path import splitext, join, exists
 import os
 
-with open('input_ids.txt') as f:
+with open('anthro/input_ids.txt') as f:
     sample_ids = f.readlines()
+
 sample_ids = [x.rstrip() for x in sample_ids]
 
 if __name__ == '__main__':

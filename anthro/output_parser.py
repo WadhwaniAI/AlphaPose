@@ -1,3 +1,5 @@
+# Run from outside anthro/ directory
+
 import sys
 sys.path.append('/home/users/aditya/projects/anthro-data')
 from api import DBAPI
@@ -6,11 +8,14 @@ import os
 import json
 import numpy as np
 
-with open('input_ids.txt') as f:
+
+with open('anthro/input_ids.txt') as f:
     sample_ids = f.readlines()
+
 sample_ids = [x.rstrip() for x in sample_ids]
 
 if __name__ == '__main__':
+
     dbapi = DBAPI()
     ids, results = dbapi.select_by_key('state', 'telangana', ids=sample_ids)
     video_key = 'video_baby_ruler_chessboard'
