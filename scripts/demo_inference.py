@@ -21,13 +21,12 @@ from alphapose.utils.transforms import flip, flip_heatmap
 from alphapose.utils.vis import getTime
 from alphapose.utils.webcam_detector import WebCamDetectionLoader
 from alphapose.utils.writer import DataWriter
+from glob import glob
 
 """----------------------------- Demo options -----------------------------"""
 parser = argparse.ArgumentParser(description='AlphaPose Demo')
-parser.add_argument('--cfg', type=str, required=True,
-                    help='experiment configure file name')
-parser.add_argument('--checkpoint', type=str, required=True,
-                    help='checkpoint file name')
+parser.add_argument('--cfg', type=str, required=True, help='experiment configure file name')
+parser.add_argument('--checkpoint', type=str, required=True, help='checkpoint file name')
 parser.add_argument('--sp', default=False, action='store_true',
                     help='Use single process for pytorch')
 parser.add_argument('--detector', dest='detector',
@@ -131,8 +130,7 @@ def check_input():
         if len(inputlist):
             im_names = open(inputlist, 'r').readlines()
         elif len(inputpath) and inputpath != '/':
-            for root, dirs, files in os.walk(inputpath):
-                im_names = files
+            im_names = glob(os.path.join(inputpath, '*.jpg'))
             im_names = natsort.natsorted(im_names)
         elif len(inputimg):
             args.inputpath = os.path.split(inputimg)[0]
@@ -157,10 +155,8 @@ def loop():
         yield n
         n += 1
 
-
 if __name__ == "__main__":
     mode, input_source = check_input()
-
     if not os.path.exists(args.outputpath):
         os.makedirs(args.outputpath)
 

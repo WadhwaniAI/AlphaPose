@@ -18,11 +18,11 @@ class DetectionLoader():
         self.opt = opt
         self.mode = mode
         self.device = opt.device
-
         if mode == 'image':
             self.img_dir = opt.inputpath
             self.imglist = [os.path.join(self.img_dir, im_name.rstrip('\n').rstrip('\r')) for im_name in input_source]
-            self.datalen = len(input_source)
+            # self.imglist = self.imglist[:10]
+            self.datalen = len(self.imglist)
         elif mode == 'video':
             stream = cv2.VideoCapture(input_source)
             assert stream.isOpened(), 'Cannot capture source'
@@ -131,7 +131,6 @@ class DetectionLoader():
                     self.wait_and_put(self.image_queue, (None, None, None, None))
                     return
                 im_name_k = self.imglist[k]
-
                 # expected image shape like (1,3,h,w) or (3,h,w)
                 img_k = self.detector.image_preprocess(im_name_k)
                 if isinstance(img_k, np.ndarray):
