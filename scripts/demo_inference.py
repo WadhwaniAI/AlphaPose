@@ -192,6 +192,14 @@ if __name__ == "__main__":
     }
 
     # Init data writer
+    if '/coco/' in args.cfg:
+        json_name = 'coco.json'
+    elif '/halpe_26/' in args.cfg:
+        json_name = 'halpe_26.json'
+    else:
+        raise NotImplementedError
+
+
     queueSize = 2 if mode == 'webcam' else args.qsize
     if args.save_video and mode != 'image':
         from alphapose.utils.writer import DEFAULT_VIDEO_SAVE_OPT as video_save_opt
@@ -200,9 +208,10 @@ if __name__ == "__main__":
         else:
             video_save_opt['savepath'] = os.path.join(args.outputpath, 'AlphaPose_webcam' + str(input_source) + '.mp4')
         video_save_opt.update(det_loader.videoinfo)
-        writer = DataWriter(cfg, args, save_video=True, video_save_opt=video_save_opt, queueSize=queueSize).start()
+
+        writer = DataWriter(cfg, args, json_name=json_name, save_video=True, video_save_opt=video_save_opt, queueSize=queueSize).start()
     else:
-        writer = DataWriter(cfg, args, save_video=False, queueSize=queueSize).start()
+        writer = DataWriter(cfg, args, json_name=json_name, save_video=False, queueSize=queueSize).start()
 
     if mode == 'webcam':
         print('Starting webcam demo, press Ctrl + C to terminate...')

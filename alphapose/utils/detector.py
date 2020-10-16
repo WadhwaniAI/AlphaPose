@@ -21,7 +21,7 @@ class DetectionLoader():
         if mode == 'image':
             self.img_dir = opt.inputpath
             self.imglist = [os.path.join(self.img_dir, im_name.rstrip('\n').rstrip('\r')) for im_name in input_source]
-            # self.imglist = self.imglist[:10]
+            self.imglist = self.imglist[:10]
             self.datalen = len(self.imglist)
         elif mode == 'video':
             stream = cv2.VideoCapture(input_source)

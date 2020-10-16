@@ -211,7 +211,7 @@ def pose_nms(bboxes, bbox_scores, bbox_ids, pose_preds, pose_scores, areaThres=0
     pose_scores[pose_scores == 0] = 1e-5
     kp_nums = pose_preds.size()[1]
     res_bboxes, res_bbox_scores, res_bbox_ids, res_pose_preds, res_pose_scores, res_pick_ids = [],[],[],[],[],[]
-    
+
     ori_bboxes = bboxes.clone()
     ori_bbox_scores = bbox_scores.clone()
     ori_bbox_ids = bbox_ids.clone()
@@ -232,7 +232,7 @@ def pose_nms(bboxes, bbox_scores, bbox_ids, pose_preds, pose_scores, areaThres=0
 
     human_ids = np.arange(nsamples)
     mask = np.ones(len(human_ids)).astype(bool)
-    
+
     # Do pPose-NMS
     pick = []
     merge_ids = []
@@ -302,7 +302,7 @@ def pose_nms(bboxes, bbox_scores, bbox_ids, pose_preds, pose_scores, areaThres=0
         res_pose_scores.append(merge_score)
         res_pick_ids.append(pick[j])
 
- 
+
 
     return res_bboxes, res_bbox_scores, res_bbox_ids, res_pose_preds, res_pose_scores, res_pick_ids
 
@@ -468,7 +468,7 @@ def PCK_match(pick_pred, all_preds, ref_dist):
     return num_match_keypoints
 
 
-def write_json(all_results, outputpath, form=None, for_eval=False):
+def write_json(all_results, outputpath, json_name, form=None, for_eval=False):
     '''
     all_result: result dict of predictions
     outputpath: output directory
@@ -535,7 +535,7 @@ def write_json(all_results, outputpath, form=None, for_eval=False):
                 json_results.append(result)
 
     if form == 'cmu': # the form of CMU-Pose
-        with open(os.path.join(outputpath,'alphapose-results.json'), 'w') as json_file:
+        with open(os.path.join(outputpath, json_name), 'w') as json_file:
             json_file.write(json.dumps(json_results_cmu))
             if not os.path.exists(os.path.join(outputpath,'sep-json')):
                 os.mkdir(os.path.join(outputpath,'sep-json'))
@@ -543,7 +543,7 @@ def write_json(all_results, outputpath, form=None, for_eval=False):
                 with open(os.path.join(outputpath,'sep-json',name.split('.')[0]+'.json'),'w') as json_file:
                     json_file.write(json.dumps(json_results_cmu[name]))
     elif form == 'open': # the form of OpenPose
-        with open(os.path.join(outputpath,'alphapose-results.json'), 'w') as json_file:
+        with open(os.path.join(outputpath, json_name), 'w') as json_file:
             json_file.write(json.dumps(json_results_cmu))
             if not os.path.exists(os.path.join(outputpath,'sep-json')):
                 os.mkdir(os.path.join(outputpath,'sep-json'))
@@ -551,6 +551,6 @@ def write_json(all_results, outputpath, form=None, for_eval=False):
                 with open(os.path.join(outputpath,'sep-json',name.split('.')[0]+'.json'),'w') as json_file:
                     json_file.write(json.dumps(json_results_cmu[name]))
     else:
-        with open(os.path.join(outputpath,'alphapose-results.json'), 'w') as json_file:
+        with open(os.path.join(outputpath, json_name), 'w') as json_file:
             json_file.write(json.dumps(json_results))
 

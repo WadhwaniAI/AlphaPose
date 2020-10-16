@@ -22,11 +22,12 @@ EVAL_JOINTS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
 
 class DataWriter():
-    def __init__(self, cfg, opt, save_video=False,
+    def __init__(self, cfg, opt, json_name, save_video=False,
                  video_save_opt=DEFAULT_VIDEO_SAVE_OPT,
                  queueSize=1024):
         self.cfg = cfg
         self.opt = opt
+        self.json_name = json_name
         self.video_save_opt = video_save_opt
 
         self.eval_joints = EVAL_JOINTS
@@ -84,7 +85,7 @@ class DataWriter():
                 # if the thread indicator variable is set (img is None), stop the thread
                 if self.save_video:
                     stream.release()
-                write_json(final_result, self.opt.outputpath, form=self.opt.format, for_eval=self.opt.eval)
+                write_json(final_result, self.opt.outputpath, self.json_name, form=self.opt.format, for_eval=self.opt.eval)
                 print("Results have been written to json.")
                 return
             # image channel RGB->BGR
@@ -122,7 +123,7 @@ class DataWriter():
                             'kp_score':preds_scores[k],
                             'proposal_score': torch.mean(preds_scores[k]) + scores[k] + 1.25 * max(preds_scores[k]),
                             'idx':ids[k],
-                            'box':[boxes[k][0], boxes[k][1], boxes[k][2]-boxes[k][0],boxes[k][3]-boxes[k][1]] 
+                            'box':[boxes[k][0], boxes[k][1], boxes[k][2]-boxes[k][0],boxes[k][3]-boxes[k][1]]
                         }
                     )
 
@@ -186,7 +187,7 @@ class DataWriter():
 
     def clear_queues(self):
         self.clear(self.result_queue)
-        
+
     def clear(self, queue):
         while not queue.empty():
             queue.get()
