@@ -1,6 +1,6 @@
 # INSTALLATION / SETUP
 - To setup alphapose follow the link - https://github.com/MVIG-SJTU/AlphaPose/blob/master/docs/INSTALL.md - The conda pathway is preferred
-- Download configs and models. [Halpe models](https://github.com/MVIG-SJTU/AlphaPose/blob/master/docs/MODEL_ZOO.md#halpe-dataset-26-keypoints) and [FastPose DUC Resnet-50 unshuffle](https://github.com/MVIG-SJTU/AlphaPose/blob/master/docs/MODEL_ZOO.md) 
+- Download configs and models. [Halpe models](https://github.com/MVIG-SJTU/AlphaPose/blob/master/docs/MODEL_ZOO.md#halpe-dataset-26-keypoints) for HALPE 26 and [FastPose DUC Resnet-50 unshuffle](https://github.com/MVIG-SJTU/AlphaPose/blob/master/docs/MODEL_ZOO.md) for COCO
  
 # GENERATING KPS for anthro dataset
 - To run alphapose on a set of subjects, populate the file input_ids.txt with the list of subjects
